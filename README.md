@@ -1,4 +1,4 @@
-# n8n Helium 10 Python  Automation (ASIN → CSV → Google Sheets)
+# n8n Helium 10 Python  Automation (Google Sheets → ASIN → HELIUM 10 → CSV)
 
 ## Workflow Image
 <img width="1268" height="622" alt="n8n-helium10-browser-automation" src="https://github.com/user-attachments/assets/1d7a9b19-a081-4bb3-9bbc-13eba8e06be8" />
