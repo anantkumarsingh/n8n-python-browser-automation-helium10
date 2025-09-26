@@ -1,0 +1,172 @@
+{
+  "name": "Helium 10 Keyword Automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8c7bc1d7-49fe-4313-bfb8-4c7634ea2392",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "13zAC0RhkQEU6VV4cFSWowd_hz0-ARh9C9FcNWmRF3qk",
+          "mode": "list",
+          "cachedResultName": "SHEET NAME",
+          "cachedResultUrl": "SHEET LINK"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "HOME",
+          "cachedResultUrl": "SHEET LINK"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b1a863e5-4cd3-4a9b-9f49-176b6983514b",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ID",
+          "name": "NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect all ASINs into one array\nconst asins = items.map(item => item.json.ASIN);\n\n// Return a single item with that array\nreturn [\n  {\n    json: {\n      asins: asins\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "7ea6d2bd-a8d0-42ed-9e61-a00fecb83b95",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "command": "{PYTHON_PATH} {FILE_PATH} --asins='{{ $json.asins }}'"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "b17bd44e-defd-4bad-860b-153f15849640",
+      "name": "Execute Command",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "content": "## 1. Get ASINs from Google Sheets\n**Using Google Sheet's API and the \"Get Row(s)\" Node in N8N, we get all the rows of the spreadsheet**",
+        "height": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        16,
+        -304
+      ],
+      "id": "b66dddb1-61ed-4cf2-95fd-bf179182d07b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 2. Filter the ASINs Column using a Function\n**Using a simple JS function node, we get the ASINs in a single array**",
+        "height": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        304,
+        -304
+      ],
+      "id": "76971559-dcac-40ca-bac6-62146558a121",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 3. Pass the Array and Run the Python Script\n**Using N8N's \"Execute Command\" Node, we use our local python interpreter and pass the array as a cmd line argument to run the script on our local computer.\"**",
+        "height": 192,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        592,
+        -304
+      ],
+      "id": "617b777b-3080-4e10-bbc4-a562f3fe32a3",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [],
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "934865c9-0325-4200-8bec-b390df11efad",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ID"
+  },
+  "id": "ID",
+  "tags": []
+}
